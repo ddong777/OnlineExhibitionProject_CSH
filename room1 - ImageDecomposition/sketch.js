@@ -2,7 +2,7 @@ let img;
 let cells = [];
 
 function preload() {
-  img = loadImage('IMG_6972.jpg');
+  img = loadImage('150.jpg');
 
 }
 
@@ -11,7 +11,7 @@ function setup() {
   background(255);
   imageMode(CENTER);
   image(img, width / 2, height / 2);
-  
+
   if ( width > height ) {
     for (let i = 0; i < width*5; i++) {
       cells[i] = new Cell(createVector(random(20, width - 20), random(20, height - 20)));
@@ -72,4 +72,3 @@ function keyPressed() {
     save();
   }
 }
-
