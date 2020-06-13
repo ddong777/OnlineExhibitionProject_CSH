@@ -13,7 +13,7 @@ function setup() {
   c.drop(gotFile);
 
   push();
-  fill(0);
+  fill(255);
   noStroke();
   textSize(width/36);
   textAlign(CENTER);
@@ -86,13 +86,26 @@ function gotFile(file) {
   if (file.type === 'image') {
     // Create an image DOM element but don't show it
     const img = createImg(file.data).hide();
+
+    for (int i = 0; i < cells.size(); i++) {
+      for (int j = 0; j < cells.size(); j++) {
+        cells.remove(0);
+        cell_num--;
+      }
+    }
+
     // Draw the image onto the canvas
     if (width <  height/img.height*img.width){
       image(img, width/2, height/2, width * 0.9, width/img.width*img.height * 0.9);
       }
     else{
       image(img, width/2, height/2, height/img.height*img.width * 0.9, height * 0.9);}
-  } else {
+    }
+
+  cell_num = ((width+height)/2)*5;
+    for (int i = 0; i < cell_num; i++) {
+      cells.add(new Cell(new PVector(random(20, width - 20), random(20, height - 20))));
+    } else {
     console.log('Not an image file!');
   }
 }
