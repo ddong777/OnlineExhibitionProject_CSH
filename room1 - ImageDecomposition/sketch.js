@@ -18,6 +18,7 @@ function setup() {
   textSize(width/36);
   textAlign(CENTER);
   text('Drag an image file onto the canvas.', width / 2, height * 0.1);
+  fill(255);
   pop();
 
   if ( width > height ) {
