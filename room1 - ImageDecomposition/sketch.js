@@ -79,7 +79,6 @@ function gotFile(file) {
     // Create an image DOM element but don't show it
     const img = createImg(file.data).hide();
 
-    cellCreate.clear();
     cells.splice(0, cells.length);
 
     // Draw the image onto the canvas
