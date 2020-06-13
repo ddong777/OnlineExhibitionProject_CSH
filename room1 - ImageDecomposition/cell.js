@@ -1,7 +1,7 @@
 class Cell {
   constructor(cellPos) {
     this.pos = createVector(cellPos.x, cellPos.y);
-    this.cellWeight = random(1, 3);
+    this.cellWeight = random(1, 10);
 
     this.cellEnergy = random(10, 30);
     this.energyUseValue = random(0.1, 0.5);
@@ -153,7 +153,7 @@ class Cell {
     this.carbonValueGet_R = this.rValue;
     this.carbonValueGet_B = this.bValue;
 
-    //nitrogen    
+    //nitrogen
     this.nitroValueGet_R = this.rValue;
     this.nitroValueGet_G = this.gValue;
   }
