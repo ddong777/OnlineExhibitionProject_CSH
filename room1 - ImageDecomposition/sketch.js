@@ -12,15 +12,6 @@ function setup() {
   image(img, width / 2, height / 2);
   c.drop(gotFile);
 
-  push();
-  fill(255);
-  noStroke();
-  textSize(width/36);
-  textAlign(CENTER);
-  text('Drag an image file onto the canvas.', width / 2, height * 0.1);
-  fill(255);
-  pop();
-
   if ( width > height ) {
     for (let i = 0; i < width*5; i++) {
       cells[i] = new Cell(createVector(random(20, width - 20), random(20, height - 20)));
