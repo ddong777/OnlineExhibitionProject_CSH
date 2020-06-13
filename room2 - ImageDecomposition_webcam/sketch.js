@@ -4,9 +4,9 @@ let cells = [];
 let capture;
 let pg;
 
-function preload() {
-  img = loadImage('120.jpg');
-}
+// function preload() {
+//   img = loadImage('120.jpg');
+// }
 
 function setup() {
   // imageMode(CENTER);
@@ -137,5 +137,5 @@ function keyPressed() {
 }
 
 function mousePressed() {
-  
+
 }
