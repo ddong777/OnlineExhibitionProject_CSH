@@ -7,16 +7,18 @@ function preload() {
 
 function setup() {
   const c = createCanvas(windowWidth, windowHeight);
-  background(255);
+  background(0);
   imageMode(CENTER);
   image(img, width / 2, height / 2);
   c.drop(gotFile);
 
+  push();
   fill(0);
   noStroke();
   textSize(width/36);
   textAlign(CENTER);
   text('Drag an image file onto the canvas.', width / 2, height * 0.1);
+  pop();
 
   if ( width > height ) {
     for (let i = 0; i < width*5; i++) {
