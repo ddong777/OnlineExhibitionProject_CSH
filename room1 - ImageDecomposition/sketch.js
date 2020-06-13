@@ -79,12 +79,8 @@ function gotFile(file) {
     // Create an image DOM element but don't show it
     const img = createImg(file.data).hide();
 
-    for (int i = 0; i < cells.size(); i++) {
-      for (int j = 0; j < cells.size(); j++) {
-        cells.remove(0);
-        cell_num--;
-      }
-    }
+    cellCreate.clear();
+    cells.splice(0, cells.length);
 
     // Draw the image onto the canvas
     if (width < height / img.height * img.width) {
@@ -93,10 +89,16 @@ function gotFile(file) {
       image(img, width / 2, height / 2, height / img.height * img.width * 0.9, height * 0.9);
     }
 
-    cell_num = ((width + height) / 2) * 5;
-    for (int i = 0; i < cell_num; i++) {
-      cells.add(new Cell(new PVector(random(20, width - 20), random(20, height - 20))));
+    if (width > height) {
+      for (let i = 0; i < width * 2; i++) {
+        cells[i] = new Cell(createVector(random(20, width - 20), random(20, height - 20)));
+      }
+    } else {
+      for (let i = 0; i < height * 2; i++) {
+        cells[i] = new Cell(createVector(random(20, width - 20), random(20, height - 20)));
+      }
     }
+
   } else {
     console.log('Not an image file!');
   }
