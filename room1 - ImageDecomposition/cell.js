@@ -1,7 +1,7 @@
 class Cell {
   constructor(cellPos) {
     this.pos = createVector(cellPos.x, cellPos.y);
-    this.cellWeight = random(1, 10);
+    this.cellWeight = random(1, 3);
 
     this.cellEnergy = random(10, 30);
     this.energyUseValue = random(0.1, 0.5);
@@ -312,9 +312,9 @@ class Cell {
     this.addG += this.gg;
     this.addB += this.bb;
 
-    this.byProductR = abs(this.rValue + this.addR / random(1, 3)) ;
-    this.byProductG = abs(this.gValue + this.addG / random(1, 3)) ;
-    this.byProductB = abs(this.bValue + this.addB / random(1, 3)) ;
+    this.byProductR = abs(this.rValue + this.addR / random(1, 3));
+    this.byProductG = abs(this.gValue + this.addG / random(1, 3));
+    this.byProductB = abs(this.bValue + this.addB / random(1, 3));
 
     this.addR = 0;
     this.addG = 0;
