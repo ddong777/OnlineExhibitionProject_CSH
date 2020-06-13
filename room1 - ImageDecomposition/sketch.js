@@ -33,22 +33,6 @@ function setup() {
   // print(img.width, img.height);
 }
 
-function gotFile(file) {
-  // If it's an image file
-  if (file.type === 'image') {
-    // Create an image DOM element but don't show it
-    const img = createImg(file.data).hide();
-    // Draw the image onto the canvas
-    if (width <  height/img.height*img.width){
-      image(img, width/2, height/2, width * 0.9, width/img.width*img.height * 0.9);
-      }
-    else{
-      image(img, width/2, height/2, height/img.height*img.width * 0.9, height * 0.9);}
-  } else {
-    console.log('Not an image file!');
-  }
-}
-
 function draw() {
   // image(img, width / 2, height / 2);
   if ( width > height ) {
@@ -94,5 +78,21 @@ function division() {
 function keyPressed() {
   if (keyCode === LEFT_ARROW) {
     save();
+  }
+}
+
+function gotFile(file) {
+  // If it's an image file
+  if (file.type === 'image') {
+    // Create an image DOM element but don't show it
+    const img = createImg(file.data).hide();
+    // Draw the image onto the canvas
+    if (width <  height/img.height*img.width){
+      image(img, width/2, height/2, width * 0.9, width/img.width*img.height * 0.9);
+      }
+    else{
+      image(img, width/2, height/2, height/img.height*img.width * 0.9, height * 0.9);}
+  } else {
+    console.log('Not an image file!');
   }
 }
