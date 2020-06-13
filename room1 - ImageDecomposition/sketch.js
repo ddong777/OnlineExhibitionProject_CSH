@@ -3,7 +3,6 @@ let cells = [];
 
 function preload() {
   img = loadImage('150.jpg');
-
 }
 
 function setup() {
@@ -22,7 +21,7 @@ function setup() {
     }
   }
 
-  print(img.width, img.height);
+  // print(img.width, img.height);
 }
 
 function draw() {
