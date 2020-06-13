@@ -12,12 +12,12 @@ function setup() {
   image(img, width / 2, height / 2);
   c.drop(gotFile);
 
-  if ( width > height ) {
-    for (let i = 0; i < width*5; i++) {
+  if (width > height) {
+    for (let i = 0; i < width * 5; i++) {
       cells[i] = new Cell(createVector(random(20, width - 20), random(20, height - 20)));
     }
   } else {
-    for (let i = 0; i < height*5; i++) {
+    for (let i = 0; i < height * 5; i++) {
       cells[i] = new Cell(createVector(random(20, width - 20), random(20, height - 20)));
     }
   }
@@ -27,7 +27,7 @@ function setup() {
 
 function draw() {
   // image(img, width / 2, height / 2);
-  if ( width > height ) {
+  if (width > height) {
     if (cells.length <= width * 10) {
       division();
     }
@@ -40,7 +40,7 @@ function draw() {
   for (let i = 0; i < cells.length; i++) {
     cells[i].update();
     cells[i].display();
-    if (cells[i].cellDie == true){
+    if (cells[i].cellDie == true) {
       cells.splice(i, 1);
       print("number" + i + "die");
     }
@@ -87,17 +87,17 @@ function gotFile(file) {
     }
 
     // Draw the image onto the canvas
-    if (width <  height/img.height*img.width){
-      image(img, width/2, height/2, width * 0.9, width/img.width*img.height * 0.9);
-      }
-    else{
-      image(img, width/2, height/2, height/img.height*img.width * 0.9, height * 0.9);}
+    if (width < height / img.height * img.width) {
+      image(img, width / 2, height / 2, width * 0.9, width / img.width * img.height * 0.9);
+    } else {
+      image(img, width / 2, height / 2, height / img.height * img.width * 0.9, height * 0.9);
     }
 
-  cell_num = ((width+height)/2)*5;
+    cell_num = ((width + height) / 2) * 5;
     for (int i = 0; i < cell_num; i++) {
       cells.add(new Cell(new PVector(random(20, width - 20), random(20, height - 20))));
-    } else {
+    }
+  } else {
     console.log('Not an image file!');
   }
 }
