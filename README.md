@@ -1,8 +1,5 @@
 #전시 장소
-==> https://ddong777.github.io/OnlineExhibitionProject_CSH/ (뒤에 이름도 약간 주소처럼 수정할 것)
-
-(리플렛처럼 꾸며 볼 것.)
-(리플렛도 웹페이지로.)
+==> https://ddong777.github.io/OnlineExhibitionProject_CSH/ 
 
 ----------------------------------------------------------------------
 
