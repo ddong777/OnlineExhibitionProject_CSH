@@ -5,7 +5,7 @@
 	<title> test 0622 </title>
 
 	<!-- include three.js library -->
-	<script src='AR-Examples-master/js/three.js'></script>
+	<script src='js/three.js'></script>
 
 	<!-- include jsartookit -->
 	<script src="AR-Examples-master/jsartoolkit5/artoolkit.min.js"></script>
@@ -176,7 +176,7 @@
 			});
 
 			reflectMesh = new THREE.Mesh(
-			new THREE.TorusKnotGeometry(1, 0.4, 128, 16), // new THREE.SphereBufferGeometry(1, 32, 32),
+			new THREE.boxGeometry(1, 0.4, 128, 16), // new THREE.SphereBufferGeometry(1, 32, 32),
 			refractMaterial
 			);
 

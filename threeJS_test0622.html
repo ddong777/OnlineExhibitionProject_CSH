@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<title> three.js try-0622 </title>
 		<style>
 			body { margin: 0; }
@@ -11,14 +11,23 @@
 	</head>
 	<body>
 		<script src="js/three.js"></script>
-		<script>
 
+		<!-- include jsartookit -->
+		<script src="AR-Examples-master/jsartoolkit5/artoolkit.min.js"></script>
+		<script src="AR-Examples-master/jsartoolkit5/artoolkit.api.js"></script>
+
+		<!-- include threex.artoolkit -->
+		<script src="AR-Examples-master/threex/threex-artoolkitsource.js"></script>
+		<script src="AR-Examples-master/threex/threex-artoolkitcontext.js"></script>
+		<script src="AR-Examples-master/threex/threex-arbasecontrols.js"></script>
+		<script src="AR-Examples-master/threex/threex-armarkercontrols.js"></script>
+
+		<script>
 			// Our Javascript will go here.
 
 			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamara(
-				75, window.innerWidth / window.innerHeight, 0.1, 1000
-			); //field of view, aspect ratio, near clipping plane, far clipping plane
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+				//field of view, aspect ratio, near clipping plane, far clipping plane
 			var renderer = new THREE.WebGLRenderer();
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			// if want lower resolution, setSize(window.innerWidth/2, window.innerHeight/2, false)
@@ -33,11 +42,15 @@
 
 			function animate() {
 				requestAnimationFrame( animate );
-				renderer.render( scene, camera );
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+
+				renderer.render(scene, camera);
 			}
+
 			animate();
 
-
-		</script>
+			</script>
 	</body>
 </html>
