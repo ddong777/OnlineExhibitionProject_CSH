@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title> three.js try-0622 </title>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		canvas {
+			display: block;
+		}
+	</style>
+</head>
+
+<body>
+	<script src="js/three.js"></script>
+
+	<!-- include jsartookit -->
+	<script src="AR-Examples-master/jsartoolkit5/artoolkit.min.js"></script>
+	<script src="AR-Examples-master/jsartoolkit5/artoolkit.api.js"></script>
+
+	<!-- include threex.artoolkit -->
+	<script src="AR-Examples-master/threex/threex-artoolkitsource.js"></script>
+	<script src="AR-Examples-master/threex/threex-artoolkitcontext.js"></script>
+	<script src="AR-Examples-master/threex/threex-arbasecontrols.js"></script>
+	<script src="AR-Examples-master/threex/threex-armarkercontrols.js"></script>
+
+	<script>
+		// Our Javascript will go here.
+		const cellSize = 256;
+		const cell = new Uint8Array(cellSize * cellSize * cellSize);
+
+		class VoxelWorld {
+			constructor(cellSize) {
+				this.cellSize = cellSize;
+			}
+			generateGeometryDataForCell(cellX, cellY, cellZ) {
+				const {
+					cellSize
+				} = this;
+				const positions = [];
+				const normals = [];
+				const indices = [];
+				const startX = cellX * cellSize;
+				const startY = cellY * cellSize;
+				const startZ = cellZ * cellSize;
+
+				for (let y = 0; y < cellSize; ++y) {
+					const voxelY = startY + y;
+					for (let z = 0; z cellSize; ++z) {
+						const voxelZ = startZ + z;
+						for (let x = 0; x < cellSize; ++x) {
+							const vexelX = startX + x;
+							const voxel = this.getVexel(voxelX, voxelY, voxelZ);
+							if (voxel) {
+								// for (const {dir} of VoxelWorld.faces){
+								for (const {
+										dir,
+										corners
+									} of VoxelWorld.faces)
+									const neighbor = this.getVexel(
+										voxelX + dir[0],
+										vexelY + dir[1],
+										voxelZ + dir[2]);
+								if (!neighbor) {
+									// this voxel has no neighbor in this direction so we need a face
+									// here.
+									const ndx = positions.length / 3;
+									for (const pos of corners) {
+										positions.push(pos[0] + x, pos[1] + y, pos[2] + z);
+										normals.push(...dir);
+									}
+									indices.push(ndx, ndx + 1, ndx + 2, ndx + 2, ndx + 1, ndx + 3, );
+								}
+							}
+						}
+					}
+				}
+				return {
+					positions,
+					normals,
+					indices,
+				};
+			}
+		}
+
+
+		VoxelWorld.faces = [{ //left
+				dir: [-1, 0, 0],
+				corners: [
+					[0, 1, 0],
+					[0, 0, 0],
+					[0, 1, 1],
+					[0, 1, 0],
+				],
+			},
+			{ //right
+				dir: [1, 0, 0],
+			},
+			{ //bottom
+				dir: [0, -1, 0],
+			},
+			{ //top
+				dir: [0, 1, 0],
+			},
+			{ //back
+				dir: [0, 0, -1],
+			},
+			{ //front
+				dir: [0, 0, 1],
+			},
+		];
+
+		for (let y = 0; y < cellSize; ++y) {
+			for (let z = 0; z < cellSize; ++z) {
+				for (let x = 0; x < cellSize; ++x) {
+					const height = (Math.sin(x / cellSize * Math.PI * 4) +
+						Math.sin(z / cellSize * Math.PI * 4) +
+						Math.sin(z / cellSize * Math.PI * 6)) * 20 + cellSize / 2;
+					if (height < y + 1) {
+						const offset = y * cellSize * cellSize +
+							z * cellSize +
+							x;
+						cell[offset] = 1;
+					}
+				}
+			}
+		}
+
+		let scene, camera, renderer;
+		const geometry = new THREE.BoxGeometry(1, 1, 1);
+		let material = new THREE.MeshBasicMaterial({
+			color: 0x353535
+		});
+
+		scene = new THREE.Scene();
+		camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		renderer = new THREE.WebGLRenderer();
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		document.body.appendChild(renderer.domElement);
+
+		for (let y = 0; y < cellSize; ++y) {
+			for (let z = 0; z < cellSize; ++z) {
+				for (let x = 0; x < cellSize; ++x) {
+					const offset = y * cellSize * cellSize +
+						z * cellSize +
+						x;
+					const block = cell[offset];
+					const mesh = new THREE.Mesh(geometry, material);
+					mesh.position.set(x, y, z);
+					scene.add(mesh);
+				}
+			}
+		}
+	</script>
+</body>
+
+</html>

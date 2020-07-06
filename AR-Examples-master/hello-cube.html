@@ -16,14 +16,21 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
-<!-- 
+<!--
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
 
 <script>
 
-var scene, camera, renderer, clock, deltaTime, totalTime;
+var scene, camera, renderer; // for three.js
+
+// scene = new THREE.Scene();
+// camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 10, 1000 );
+// camera.position.z = 30;
+// renderer = new THREE.WebGLRenderer( {antialias: true} );
+
+var clock, deltaTime, totalTime;
 
 var arToolkitSource, arToolkitContext;
 
@@ -31,34 +38,34 @@ var markerRoot1, markerRoot2;
 
 var mesh1;
 
-initialize();
-animate();
+init();  // void setup()
+animate();     // void draw()
 
-function initialize()
+function init()
 {
-	scene = new THREE.Scene();
-
 	let ambientLight = new THREE.AmbientLight( 0xcccccc, 0.5 );
-	scene.add( ambientLight );
-				
-	camera = new THREE.Camera();
-	scene.add(camera);
 
-	renderer = new THREE.WebGLRenderer({
-		antialias : true,
-		alpha: true
-	});
-	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	scene = new THREE.Scene();
+	camera = new THREE.Camera();
+	renderer = new THREE.WebGLRenderer({ 	antialias : true, alpha: true	});
+
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0);
 	renderer.setSize( 640, 480 );
+
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
+
 	document.body.appendChild( renderer.domElement );
+	// add renderer HTML document so can see screen
 
 	clock = new THREE.Clock();
 	deltaTime = 0;
 	totalTime = 0;
-	
+
+	scene.add(ambientLight);
+	scene.add(camera);
+
 	////////////////////////////////////////////////////////////
 	// setup arToolkitSource
 	////////////////////////////////////////////////////////////
@@ -69,33 +76,33 @@ function initialize()
 
 	function onResize()
 	{
-		arToolkitSource.onResize()	
-		arToolkitSource.copySizeTo(renderer.domElement)	
+		arToolkitSource.onResize()
+		arToolkitSource.copySizeTo(renderer.domElement)
 		if ( arToolkitContext.arController !== null )
 		{
-			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
-		}	
+			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
+		}
 	}
 
 	arToolkitSource.init(function onReady(){
 		onResize()
 	});
-	
+
 	// handle resize event
 	window.addEventListener('resize', function(){
 		onResize()
 	});
-	
+
 	////////////////////////////////////////////////////////////
 	// setup arToolkitContext
-	////////////////////////////////////////////////////////////	
+	////////////////////////////////////////////////////////////
 
 	// create atToolkitContext
 	arToolkitContext = new THREEx.ArToolkitContext({
 		cameraParametersUrl: 'data/camera_para.dat',
 		detectionMode: 'mono'
 	});
-	
+
 	// copy projection matrix to camera when initialization complete
 	arToolkitContext.init( function onCompleted(){
 		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
@@ -112,16 +119,26 @@ function initialize()
 		type: 'pattern', patternUrl: "data/hiro.patt",
 	})
 
-	let geometry1	= new THREE.CubeGeometry(1,1,1);
-	let material1	= new THREE.MeshNormalMaterial({
+	////////////////////////////////////////////////////////////
+	// make objects
+	////////////////////////////////////////////////////////////
+
+	var geometry = new THREE.BoxGeometry(1,1,1);
+	geometry.colorsNeedUpdate = true;
+	//let geometry1	= new THREE.CubeGeometry( 1 , 1 , 1 ); // width,height,depth
+	// BoxBufferGeometry로 하지 않는 이유는 색이 업데이트 되어야하기 떄문.
+
+ 	var material1	= new THREE.MeshNormalMaterial({
 		transparent: true,
 		opacity: 0.5,
 		side: THREE.DoubleSide
-	}); 
-	
+	});
+	// or new THREE.MeshBasicMaterial( { color: 0xffffff, opacity:0.7, transparent:true } );
+
 	mesh1 = new THREE.Mesh( geometry1, material1 );
 	mesh1.position.y = 0.5;
-	
+	mesh1.position.set(100, 100, 100);
+
 	markerRoot1.add( mesh1 );
 }
 
