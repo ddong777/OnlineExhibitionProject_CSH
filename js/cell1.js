@@ -56,7 +56,7 @@ class Cell {
 
   mitosis(x, y) {
     return new Cell(x, y, this.z + this.growZ, this.rValue + this.growR, this.gValue + this.growG, this.bValue + this.growB);
-    console.log(this.growZ);
+    // console.log(this.growZ);
   }
 
   newCellColor() {
