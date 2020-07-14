@@ -76,8 +76,8 @@
 			let geometryPlane = new THREE.PlaneBufferGeometry(imgSize, imgSize);
 			let materialPlane = new THREE.MeshBasicMaterial({ map: texturePlane });
 			let plane = new THREE.Mesh(geometryPlane, materialPlane);
-			plane.position.x = 0;
-			plane.position.y = 0;
+			plane.position.x = imgSize/2;
+			plane.position.y = imgSize/2;
 			scene.add(plane);
 
 			// set plane (=일종의 배지)
