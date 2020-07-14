@@ -43,9 +43,9 @@ class Cell {
   readyToMitosis() {
     if (Math.random() < 0.01 && this.cellEnergy >= 7) {
       this.growZ += 1;
-      this.growR += Math.random() / 5;
-      this.growG += Math.random() / 5;
-      this.growB += Math.random() / 5;
+      this.growR += (Math.random() - 0.5) / 5;
+      this.growG += (Math.random() - 0.5) / 5;
+      this.growB += (Math.random() - 0.5) / 5;
 
       this.cellEnergy /= 2;
       return true;
