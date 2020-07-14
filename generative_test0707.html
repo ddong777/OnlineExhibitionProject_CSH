@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title> three.js try-0707 </title>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		canvas {
+			display: block;
+		}
+	</style>
+</head>
+
+<body>
+	<script src="js/cell1.js"></script>
+
+	<script src="js/three.js"></script>
+
+	<!-- include jsartookit -->
+	<script src="AR-Examples-master/jsartoolkit5/artoolkit.min.js"></script>
+	<script src="AR-Examples-master/jsartoolkit5/artoolkit.api.js"></script>
+
+	<!-- include threex.artoolkit -->
+	<script src="AR-Examples-master/threex/threex-artoolkitsource.js"></script>
+	<script src="AR-Examples-master/threex/threex-artoolkitcontext.js"></script>
+	<script src="AR-Examples-master/threex/threex-arbasecontrols.js"></script>
+	<script src="AR-Examples-master/threex/threex-armarkercontrols.js"></script>
+
+	<script>
+		// Our Javascript will go here.
+		const cellSize = 128;
+		let cellNum = cellSize * cellSize;
+		let cells = [];
+
+		let scene, camera, renderer;
+
+		//====================================================================================================================================================
+
+		const img = new Image();
+		const imgSize = 128;
+		img.src = 'markers_img/test2.png';
+
+		const canvas2D = document.createElement('canvas');
+
+		function getImageData(image) {
+			canvas2D.width = imgSize;
+			canvas2D.height = imgSize;
+
+			const context2D = canvas2D.getContext('2d');
+			// context2D.drawImage(image, 0, 0);
+
+			return context2D.getImageData(0, 0, imgSize, imgSize);
+		}
+
+		function getPixel(imgData, x, y) {
+			let position = (x + (imgData.width * y)) * 4;
+			let data = imgData.data;
+
+			return {
+				r: data[position],
+				g: data[position + 1],
+				b: data[position + 2],
+				a: data[position + 3]
+			};
+		}
+
+		//====================================================================================================================================================
+
+		function getRandomArbitrary(min, max) {
+			return Math.random() * (max - min) + min;
+		}
+
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+		}
+
+		//====================================================================================================================================================
+
+		init();
+		animate();
+
+		//====================================================================================================================================================
+
+		function init() {
+			scene = new THREE.Scene();
+
+			let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+			scene.add(ambientLight);
+
+			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+
+			//field of view, aspect ratio, near clipping plane, far clipping plane
+			renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			// if want lower resolution, setSize(window.innerWidth/2, window.innerHeight/2, false)
+			document.body.appendChild(renderer.domElement);
+
+			//==========================================================================
+
+			let imageData = getImageData(img);
+
+			// set plane (=일종의 배지)
+			for (let y = 1; y <= cellSize + 1; ++y) {
+				for (let x = 1; x <= cellSize + 1; ++x) {
+					let pickColor = getPixel(imageData, x, y);
+					cells[x * y] = new Cell(x, y, 1, pickColor.r, pickColor.g, pickColor.b);
+					// cells.forEach(c=> scene.add(c.cube));
+				}
+			}
+
+			camera.position.set(cellSize / 2, cellSize / 2, cellSize);
+		}
+
+		//====================================================================================================================================================
+
+		function update() {
+			for (let y = 1; y <= cellSize + 1; ++y) {
+				for (let x = 1; x <= cellSize + 1; ++x) {
+
+					if (cells.length < cellSize * cellSize * cellSize) {
+
+						if (cells[x * y].readyToMitosis() == true) {
+							cells.push(cells[x * y].mitosis(x, y));
+							console.log(cells.length);
+						}
+
+					}
+
+				}
+			}
+		}
+
+		function animate() {
+			requestAnimationFrame(animate);
+			update();
+			renderer.render(scene, camera);
+		}
+	</script>
+</body>
+
+</html>

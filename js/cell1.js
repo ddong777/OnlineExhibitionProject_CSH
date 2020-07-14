@@ -10,6 +10,14 @@ class Cell {
     this.gValue = g;
     this.bValue = b;
 
+    this.growR = 0;
+    this.growG = 0;
+    this.growB = 0;
+
+    this.cellProperty();
+
+    //==========================================================================
+
     let material = new THREE.MeshBasicMaterial({
       color: 'white'
     });
@@ -18,9 +26,9 @@ class Cell {
     this.cube = new THREE.Mesh(geometry, material);
     this.setCellCube();
 
-    scene.add(this.cube);
+    //==========================================================================
 
-    this.cellProperty();
+    scene.add(this.cube);
   }
 
   setCellCube() {
@@ -35,6 +43,10 @@ class Cell {
   readyToMitosis() {
     if (Math.random() < 0.01 && this.cellEnergy >= 7) {
       this.growZ += 1;
+      this.growR += 0.3;
+      this.growG += 0.3;
+      this.growB += 0.3;
+
       this.cellEnergy /= 2;
       return true;
     } else {
@@ -43,7 +55,7 @@ class Cell {
   }
 
   mitosis(x, y) {
-    return new Cell(x, y, this.z + this.growZ, this.rValue + 0.5, this.gValue + 0.5, this.bValue + 0.5);
+    return new Cell(x, y, this.z + this.growZ, this.rValue + this.growR, this.gValue + this.growG, this.bValue + this.growB);
     console.log(this.growZ);
   }
 

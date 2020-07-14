@@ -33,12 +33,18 @@
 
 	<script>
 		// Our Javascript will go here.
-		const cellSize = 80;
-		const cellNum = cellSize * cellSize;
+
+
+		const cellSize = 50;
+		let cellNum = cellSize * cellSize;
 
 		let cells = [];
 
 		let scene, camera, renderer;
+
+		// let texturePlane = THREE.ImageUtils.loadTexture('markers_img/test2.png');
+		let texturePlane = new THREE.TextureLoader().load('markers_img/test2.png');
+		let imgSize = 128;
 
 		init();
 		animate();
@@ -54,46 +60,52 @@
 		}
 
 		function init() {
-			scene = new THREE.Scene();
-
-			let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
-			scene.add(ambientLight);
-
-			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-			//field of view, aspect ratio, near clipping plane, far clipping plane
 			renderer = new THREE.WebGLRenderer();
 			renderer.setSize(window.innerWidth, window.innerHeight);
 			// if want lower resolution, setSize(window.innerWidth/2, window.innerHeight/2, false)
 			document.body.appendChild(renderer.domElement);
 
-			// set plane (=일종의 배지)
-			for (let y = 0; y < cellSize; ++y) {
-				for (let x = 0; x < cellSize; ++x) {
-					cells[cellNum] = new Cell(x, y, 1, Math.random(), Math.random(), Math.random());
-					// cells.forEach(c=> scene.add(c.cube));
-					scene.add(cells[cellNum].cube);
-				}
-			}
+			scene = new THREE.Scene();
 
-			camera.position.set(cellSize / 2, cellSize / 2, cellSize);
+			let ambientLight = new THREE.AmbientLight(0xcccccc, 0.5);
+			scene.add(ambientLight);
+
+			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+			//field of view, aspect ratio, near clipping plane, far clipping plane
+
+			let geometryPlane = new THREE.PlaneGeometry(imgSize, imgSize, 0);
+			let materialPlane = new THREE.MeshBasicMaterial({ map: texturePlane });
+			var plane = new THREE.Mesh(geometryPlane, materialPlane);
+			scene.add(plane);
+
+			// set plane (=일종의 배지)
+			// for (let y = 1; y <= cellSize + 1; ++y) {
+			// 	for (let x = 1; x <= cellSize + 1; ++x) {
+			// 		cells[x * y] = new Cell(x, y, 1, Math.random(), Math.random(), Math.random());
+			// 		// cells.forEach(c=> scene.add(c.cube));
+			// 	}
+			// }
+
+			camera.position.set(cellSize / 2, cellSize / 2, cellSize * 2);
 		}
 
 		function update() {
-			for (let y = 0; y < cellSize; ++y) {
-				for (let x = 0; x < cellSize; ++x) {
-					if (cells.length < cellNum * cellSize) {
-						if (cells[cellNum].readyToMitosis() == true) {
-							cells.push(cells[cellNum].mitosis());
-						}
-					}
-				}
-			}
+			// for (let y = 1; y <= cellSize + 1; ++y) {
+			// 	for (let x = 1; x <= cellSize + 1; ++x) {
+			// 		if (cells.length < cellSize * cellSize * cellSize) {
+			// 			if (cells[x * y].readyToMitosis() == true) {
+			// 				cells.push(cells[x * y].mitosis(x, y));
+			// 				console.log(cells.length);
+			// 			}
+			// 		}
+			// 	}
+			// }
 		}
 
 		function animate() {
 			requestAnimationFrame(animate);
 			update();
-			renderer.render(scene, camera);			
+			renderer.render(scene, camera);
 		}
 	</script>
 </body>
