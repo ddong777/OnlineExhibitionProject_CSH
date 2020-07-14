@@ -44,7 +44,6 @@
 
 		// let texturePlane = THREE.ImageUtils.loadTexture('markers_img/test2.png');
 		let texturePlane = new THREE.TextureLoader().load('markers_img/test2.png');
-		let imgSize = 128;
 
 		init();
 		animate();
@@ -73,11 +72,11 @@
 			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 			//field of view, aspect ratio, near clipping plane, far clipping plane
 
-			let geometryPlane = new THREE.PlaneBufferGeometry(imgSize, imgSize);
+			let geometryPlane = new THREE.PlaneBufferGeometry(cellSize, cellSize);
 			let materialPlane = new THREE.MeshBasicMaterial({ map: texturePlane });
 			let plane = new THREE.Mesh(geometryPlane, materialPlane);
-			plane.position.x = imgSize/2;
-			plane.position.y = imgSize/2;
+			plane.position.x = cellSize/2;
+			plane.position.y = cellSize/2;
 			scene.add(plane);
 
 			// set plane (=일종의 배지)
