@@ -66,7 +66,7 @@ class Cell {
   //==============================================================================
 
   cellProperty() {
-    this.cellEnergy = getRandomArbitrary(30, 100);
+    this.cellEnergy = getRandomArbitrary(0, 500);
 
     this.activate = false;
 
