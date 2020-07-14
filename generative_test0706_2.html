@@ -78,13 +78,13 @@
 			var plane = new THREE.Mesh(geometryPlane, materialPlane);
 			scene.add(plane);
 
-			// set plane (=일종의 배지)
-			// for (let y = 1; y <= cellSize + 1; ++y) {
-			// 	for (let x = 1; x <= cellSize + 1; ++x) {
-			// 		cells[x * y] = new Cell(x, y, 1, Math.random(), Math.random(), Math.random());
-			// 		// cells.forEach(c=> scene.add(c.cube));
-			// 	}
-			// }
+			set plane (=일종의 배지)
+			for (let y = 1; y <= cellSize + 1; ++y) {
+				for (let x = 1; x <= cellSize + 1; ++x) {
+					cells[x * y] = new Cell(x, y, 1, Math.random(), Math.random(), Math.random());
+					// cells.forEach(c=> scene.add(c.cube));
+				}
+			}
 
 			camera.position.set(cellSize / 2, cellSize / 2, cellSize * 2);
 		}
