@@ -73,9 +73,11 @@
 			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 			//field of view, aspect ratio, near clipping plane, far clipping plane
 
-			let geometryPlane = new THREE.PlaneGeometry(imgSize, imgSize, 0);
+			let geometryPlane = new THREE.PlaneBufferGeometry(imgSize, imgSize);
 			let materialPlane = new THREE.MeshBasicMaterial({ map: texturePlane });
-			var plane = new THREE.Mesh(geometryPlane, materialPlane);
+			let plane = new THREE.Mesh(geometryPlane, materialPlane);
+			plane.position.x = 0;
+			plane.position.y = 0;
 			scene.add(plane);
 
 			// set plane (=일종의 배지)
